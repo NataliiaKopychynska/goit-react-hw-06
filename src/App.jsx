@@ -3,15 +3,22 @@ import ContactList from "./components/ContactList/ContactList";
 import ContactForm from "./components/ContactForm/ContactForm";
 import SearchBox from "./components/SearchBox/SearchBox";
 import { useSelector, useDispatch } from "react-redux";
-import { addContact, deleteContact, setFilter } from "./redux/contactsSlice";
+import { addContact, deleteContact } from "./redux/contactsSlice";
+import { setFilter } from "./redux/filtersSlice";
 
 function App() {
   const contacts = useSelector((state) => state.contacts.items);
-  const filter = useSelector((state) => state.filters.name);
+  const filter = useSelector((state) => state.filters.name) || "";
   const dispatch = useDispatch();
 
   const handleAddContact = (values, actions) => {
-    dispatch(addContact(values));
+    const newContact = {
+      id: Date.now().toString(), // Додаємо унікальний ID
+      name: values.nameContact,
+      number: values.numberContact,
+    };
+
+    dispatch(addContact(newContact));
     actions.resetForm();
   };
 
@@ -23,8 +30,8 @@ function App() {
     dispatch(setFilter(e.target.value.toLowerCase()));
   };
 
-  const filteredContacts = contacts.filter((contact) =>
-    contact.name.toLowerCase().includes(filter)
+  const filterContacts = contacts.filter((contact) =>
+    contact?.name?.toLowerCase().includes(filter)
   );
 
   return (
@@ -36,7 +43,7 @@ function App() {
           <ContactForm addContacts={handleAddContact} />
         </div>
         <ContactList
-          contactList={filteredContacts}
+          contactList={filterContacts}
           onDeleteContact={handleDeleteContact}
         />
       </div>

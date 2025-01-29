@@ -10,12 +10,13 @@ export default function ContactForm({ addContacts }) {
 
   const yupValidation = Yup.object().shape({
     nameContact: Yup.string()
-      .min(3, "To Short!")
-      .max(50, "To Long!")
+      .min(3, "Too Short!")
+      .max(50, "Too Long!")
       .required("Name is required"),
     numberContact: Yup.string()
-      .min(7, "Is not a phone!")
-      .max(7, "Is not a phone!")
+      .matches(/^\d+$/, "Only digits are allowed")
+      .min(7, "Too Short!")
+      .max(15, "Too Long!")
       .required("Number is required"),
   });
 

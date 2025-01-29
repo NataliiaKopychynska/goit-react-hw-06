@@ -4,18 +4,15 @@ import Contact from "../Contact/Contact.jsx";
 export default function ContactList({ contactList, onDeleteContact }) {
   return (
     <ul className={s.containerList}>
-      {contactList.map((contact) => {
-        return (
-          <Contact
-            contactName={contact.name}
-            contactNumber={contact.number}
-            //   contactInfo={contact}
-            key={contact.id}
-            onDeleteContact={onDeleteContact}
-            id={contact.id}
-          />
-        );
-      })}
+      {contactList.map((contact) => (
+        <Contact
+          key={contact.id}
+          id={contact.id}
+          contactName={contact.name}
+          contactNumber={contact.number}
+          onDeleteContact={onDeleteContact}
+        />
+      ))}
     </ul>
   );
 }
